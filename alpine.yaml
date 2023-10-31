@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpine
+  template:
+    metadata:
+      labels:
+        app: alpine
+      annotations:
+        ves.io/wingman-injection-mode: disable
+    spec:
+      containers:
+      - image: alpine
+        imagePullPolicy: Always
+          # imagePullPolicy: IfNotPresent
+        command: ["sleep", "infinity"]
+        name: alpine
+        securityContext:                                                                                                                                  
+          privileged: true
+          capabilities:
+            add: ["NET_ADMIN", "SYS_ADMIN"]
+          runAsUser: 0
